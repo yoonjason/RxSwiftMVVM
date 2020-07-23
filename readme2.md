@@ -1,5 +1,8 @@
 Rxswift 정리
 
+Youtube 주소
+https://youtu.be/iHKBNYMWd5I
+
 RxSwift 비동기로 생기는 결과값을 completion으로 전달하는게 아니라(클로져)
 return값으로 전달해주기 위해서 생긴 유틸리티이다.
 
