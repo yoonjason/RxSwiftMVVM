@@ -15,12 +15,26 @@ class SugarViewController: UIViewController {
     @IBOutlet var timerLabel: UILabel!
     @IBOutlet var editView: UITextView!
     
+//    var disposable : Disposable?
+    
+    
+    //여러개를 없애야할 경우
+    var disposable : [Disposable] = []
+    var disposeBag  = DisposeBag() //dispose를 담는 가방
     
     override func viewDidLoad() {
         super.viewDidLoad()
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             self?.timerLabel.text = "\(Date().timeIntervalSince1970)"
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //여러개의 비동기로 처리되는 동작이 있을 때 한번에 사라진다.
+        
+        //매번 이렇게 만들기가 귀찮기때문에 sugar이 제공된다.
+        disposable.forEach { $0.dispose() }
     }
     
     private func setVisibleWithAnimation(_ v: UIView?, _ s: Bool) {
@@ -190,6 +204,11 @@ class SugarViewController: UIViewController {
                 self.editView.text = json
                 self.setVisibleWithAnimation(self.activityIndicator, false)
             })
+        .disposed(by: disposeBag)
+            
+//        disposable.append(d)
+//        disposable2.insert(d)
+        
         
         
     }

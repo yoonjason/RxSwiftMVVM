@@ -135,10 +135,15 @@ operator라고 한다.
  검정 화살표에서 주황색 화살표로 바뀜
  색이 바뀐건 쓰레드가 바뀐거라고 생각하면 됌
  그 다음줄에 영향을 준다.
+ 아래로 간다.
+ DownStream에 영향을 준다.
  
- subscribeOn
+ SubscribeOn
  default qos를 갖는 DispatchQueue 쓰레드에서 처음부터(downloadJson)부터 observeOn 에서 쓰레드가 전환된다.
  첫 번째 어디쓰레드에서 동작할 건지를 지정해주는 거기 때문에 subscribeOn은 위치가 상관없다.
+ 위치에 상관없이 맨 처음 쓰레드의 시작을 지정해준다.
+ 그러니까 위로간다.
+ UpStream에 영향을 준다.
  
  Scan
 
@@ -180,5 +185,17 @@ Zip -> 위 Observable 아래 Observable 생성되면 하나씩 쌍으로 만들�
 CombineLatest -> 위 Observable 아래 Observable 생성되면 가장 최근에 생성된 Observable을 쌍을 만들어서 보내준다.
 
 
-
-
+ 여러개 subscribe를 하다가 화면을 나갈경우가 생긴다면
+ var disposable : [Disposable] = []
+ 
+ 
+ 
+ subscribeOn, observeOn 에는 스케쥴러를 넣어준다.
+ OperationQueue를 래핑해서 스케쥴러 라는 것을 만든 것이다.
+ 
+ 
+ Step2는 소스 참고 용이고,
+ Step3 Empty를 가지고 rxCocoa + MVVM을 적용해본다.
+ 1:45 분부터 시청할 것.
+ 
+ 
