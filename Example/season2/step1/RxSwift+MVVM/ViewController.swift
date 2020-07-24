@@ -31,6 +31,9 @@ class ViewController: UIViewController {
     @IBOutlet var timerLabel: UILabel!
     @IBOutlet var editView: UITextView!
 
+    @IBAction func onActionGo(_ sender: Any) {
+        performSegue(withIdentifier: "goto", sender: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
