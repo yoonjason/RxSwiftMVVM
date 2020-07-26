@@ -198,4 +198,55 @@ CombineLatest -> 위 Observable 아래 Observable 생성되면 가장 최근에 
  Step3 Empty를 가지고 rxCocoa + MVVM을 적용해본다.
  1:45 분부터 시청할 것.
  
+ RxCoCoa -> Rxswift에 기능을 UIKit에 Extensions을 추가함.
  
+ 
+ Step3 RxSwift+MVVM
+ Observable에다가 어떻게 넣어줄 수 있나.
+ Observable은 값을 넘겨주는 애지, 외부에서 받아서 넘겨주는 애가 아니다.
+ 
+ Observable처럼 값을 받아먹을 수 있는 애지만, 외부에서 컨트롤할 수는 없을까?
+ 그래서 나온게 Subject
+ 
+ Subject
+ Observable 밖에서 데이터를 컨트롤을 해서 새로운 값을 Next값을 만들어 줄 수 있는 것을 Subject
+ 
+ Create했을 때 받았던 Emitter
+ Create안에서만 쓰이는 게 아니라, 이미 만들어져 있는 Observable밖에서 값을 바꿀 수 있다.
+ 
+ AsyncSubject
+ 여러 놈이 Subscribe구독하더라도, 데이터를 다 안내려보내주다가
+ Complete되는 시점에 데이터를 다 내려주고 Complete시킨다.
+ 
+ 
+ BehaviorSubject
+  기본 값을 하나 가지고 시작한다.
+ 누군가가 subscribe하자마자 기본값을 내려준다.
+ 아직 데이터가 생성되지 않았을 때, 기본값을 내려주고 시작한다.
+ 데이터가 생기면 그 때마다 계속 내려보낸다.
+ 새로운 놈이 중간에 Subscribe를 하게되면, 가장 최근에 발생했던 그 값을
+ 일단 내려주고 나서, 다음부터 발생하는 데이터를 모든 Subscribe하는 애들한테 내려보낸다.
+ 
+ 
+ PublishSubject
+ 
+ Subject에 누군가 Subscribe()할 수가 있다.
+ 내부에서 데이터가 생성이 되면 그대로 내려보내준다.
+ 다른 subscribe할 수 있고, 또 데이터가 생기면 Subcribe하는 모든 놈들한테 
+ 데이터를 보내준다.
+ 
+ ReplaySubject
+Subscribe했을 때 데이터를 내려보내준다.
+여기까지는 Publish와 동일하다.
+두번째로 Subscribe했던 놈은 여태까지 전달됐던 것을 한꺼번에 모두 내려준다.
+그 이후로 발생한 데이터는 같이 내려준다.
+
+제일 많이 쓰는 것은 Publish와 Behavior이다.
+
+RxCoCoa는 RxSwift의 요소들을 UIKit에 Extensions를 해서 접목시킨다.
+
+label.rx.text => Rx에서 제공되는 요소
+Binder<string?> 바인드를 시킬 수 있다.
+
+
+Step3다시 볼 것!!
