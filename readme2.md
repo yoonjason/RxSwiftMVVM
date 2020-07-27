@@ -198,6 +198,8 @@ CombineLatest -> 위 Observable 아래 Observable 생성되면 가장 최근에 
  Step3 Empty를 가지고 rxCocoa + MVVM을 적용해본다.
  1:45 분부터 시청할 것.
  
+ 
+ 3번째 공부
  RxCoCoa -> Rxswift에 기능을 UIKit에 Extensions을 추가함.
  
  
@@ -221,6 +223,8 @@ CombineLatest -> 위 Observable 아래 Observable 생성되면 가장 최근에 
  
  BehaviorSubject
   기본 값을 하나 가지고 시작한다.
+  초기값을 꼭 가진다. 빈 배열이라도 넣어주자!
+  
  누군가가 subscribe하자마자 기본값을 내려준다.
  아직 데이터가 생성되지 않았을 때, 기본값을 내려주고 시작한다.
  데이터가 생기면 그 때마다 계속 내려보낸다.
@@ -250,3 +254,15 @@ Binder<string?> 바인드를 시킬 수 있다.
 
 
 Step3다시 볼 것!!
+
+.bind(to: totalPrice.rx.text) 
+.subscribe(onNext : { [weak self] in
+             self?.totalPrice.text = $0
+})
+같은 것이다.
+bind는 [weak self]를 사용해주면 순환 참조를 사용할 필요가 없다.
+
+2:42 초부터
+
+         
+         

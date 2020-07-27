@@ -16,6 +16,7 @@ class MenuViewController: UIViewController {
     let cellId = "MenuItemTableViewCell"
     
     let viewModel = MenuListViewModel()
+    //데이터는 이미 받아왔고, 뷰모델 내에서~ 여기서 생성해주면 전에 받아왔떤 데이터를 보여준다.
     var disposeBag = DisposeBag()
     
     
@@ -35,9 +36,9 @@ class MenuViewController: UIViewController {
                 
         }
             .disposed(by: disposeBag)
-        //데이터 소스가 필요없다.
+        //데이터 소스가 필요없다. item은 데이터. index는 indexPath.row cell은 인덱스에 맞는 셀
         
-            
+        
 //            .
         
         
@@ -96,6 +97,7 @@ class MenuViewController: UIViewController {
     @IBOutlet var totalPrice: UILabel!
     
     @IBAction func onClear() {
+        viewModel.clearAllItemSelections()
     }
     
     @IBAction func onOrder(_ sender: UIButton) {
@@ -104,6 +106,15 @@ class MenuViewController: UIViewController {
         //        performSegue(withIdentifier: "OrderViewController", sender: nil)
     //Observable
 //        viewModel.totalPrice.onNext(100) //100원씩 넣어준다.
+//        viewModel.menuObservable.onNext([Menu(name: "changed", price: 100, count: 2)]) //viewModel MenuObservable에 값을 넣어준다.
+//        viewModel.menuObservable.onNext([Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3))]) //viewModel MenuObservable에 값을 넣어준다.
+        viewModel.menuObservable.onNext([Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3))])
+        
+        
+        /*
+         이렇게 바껴서 돌아가는 순간,데이터가 새로 들어가서 초기화했던 메뉴들이 없어지고, 하나로 바뀔 것이다.
+         아이템 카운트가 바뀌
+         */
     }
 
 }
