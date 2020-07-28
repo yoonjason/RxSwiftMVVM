@@ -269,3 +269,103 @@ bind는 [weak self]를 사용해주면 순환 참조를 사용할 필요가 없�
 
          
          
+화면에 어떤 내용을 그려야할지, ViewModel에서만 처리한다.
+View, Cell에는 화면에 요소만 가지고 잇는 것들을 Action은 ViewModel에 넘긴다.
+모든 생각과 데이터에 대한 처리는 viewModel이 한다.
+View는 그리기만 한다.
+
+ 어떤 로직을 정해야할지는 ViewModel
+ 어떤 데이터를 보여줘야되느냐 그 데이터를 보여주는데 Clear나 +,-를 누르면 어떤 처리를 해줘야하는지는.
+ ViewModel이 알고 있다.
+ 에러가 있다면 viewModel이 알고 있다.
+ tableViewCell에서 - 누르면 -값으로 내려간다. -> viewModel이 해줘야한다.
+ 
+viewmodel에 menuCount는 문자로 바꿔서 text에 값을 줍니다.
+totalPrice가 나오면 통화형태로 바꿔서 text에 값을 줍니다.
+ViewController에는 view의 요소만 잡아서 어떤 형태로 화면에 뿌릴지 지정한다.
+
+viewModel으로 TestCase만드는게 제일 쉽다.
+
+
+
+
+
+MVVM 정리
+기획서 , 서버, 디자인. 클라이언트,
+동시에 개발 진행을 시작한다.
+뷰에 필요한 모델은 viewModel로 따로 만든다.
+실제로 데이터가 나오면 실제 Model로 만든다.
+클라이언트 입장에서는 도메인에서 오는 모델이기때문에 Domain Model이다.
+도메인 모델은 화면에 보여줘야하는 ViewModel과는 다르다.
+count로 갖고있다. 화면에 보여줘야하는 ViewModel
+View에서 필요한 파라미터들이 더 필요할 수 있다.
+View에 필요한 ViewModel으로 사용한다.
+아키텍쳐 ViewModel
+
+
+Model - View - ViewModel
+
+ViewModel
+도메인의 Model과 View에서 쓰이는 Model
+아키텍쳐에서 말하는 ViewModel ViewModel이 View에 그려라 하는 것을 지시하지 않는 다.
+View가 ViewModel을 바라보면서 값을 어떻게 바꿀지 기다리는 것이다.
+데이터 요소를 갖고 있는데, 데이터 요소가 바뀌기만 하면 알아서 뷰가 바뀐다.
+ViewModel이 View에게 그리라고 시키지않는다.
+View는 그려야될 요소가 있는 데, 보고 있다가 바뀌면 갱신하는것이다. 
+데이터 바인딩이라고 한다.
+
+어떤 뷰는 리스트, 썸네일로 보여지더라도, 보여지는 형태만 다르기때문에,
+하나의 ViewModel을 사용할 수 있다.
+
+Subject
+Data Control
+Hot Observable / Cold Observable
+
+
+Subject를 왜 사용했냐면
+Observable은 데이터가 이미 정해진 어떠한 데이터가 내보낼지가 미리 정해져있는 형태의 Stream이다.
+Create할 때부터 어떤 데이터를 내보낼지가 정해져있다.
+추가적으로 런타임에 외부 컨트롤에 의해서 데이터가 동적으로 생성되는 타입이 아니다.
+Observable 밖에서 데이터를 주입시켜주는 것이 필요했다.
+데이터를 넣어줄 수도 있고, 구독할 수도 있는 양방향성이 가지고 있는 것이 필요했고
+그것이 Subject
+Subject에는 만들어놓으면 밖에서 onNext해서 데이터를 넣어줄 수도 있고, onError, onCompleted로 끝낼 수도 있다.
+일반 Observable처럼 Subscribe도 할 수 있었다.
+
+
+RxCocoa
+UI 작업의 특징
+Observable / Driver
+Subject / Relay
+
+UIKit.rx
+
+UI에 대한 작업의 특징
+1. 항상 UI쓰레드에서만 돌아야한다.
+2. .observeOn(MainScheduler.instance)는 항상 들어가야한다.
+3. 보통 아웃렛으로 처리하거나 인스턴스 만들어서 밖에서 꺼내놓는 경우가 많아 self가 쓰는경우가 많다.
+4. 순환참조를 쓰는 경우가 많다.
+5. 데이터를 처리하다가 중간에 에러가 나면 Stream이 끊어진다. 재활용이 되지않는다.
+화면을 그리다가 에러가 났을 때, Stream이 끊어져버려서 눌러도 동작이 되질않는다.
+6. 에러가 난다고 해서 Stream이 끊어지면 안된다.
+
+끊어지면 안되기때문에 이런 처리가 있다.
+.catchErrorJustReturn("")
+.observeOn(MainScheduler.instance)
+에러가 발생하면 빈 문자열이 내려간다.
+
+항상 매번 처리하기 귀찮으니까
+asDriver라는 것을 만들었다.
+.asDriver(onErrorJustReturn:"") 에러가 들어갔을 때 기본값을 넣어주고 나면
+.dirve(itemCountLabel.rx.text) 
+Subscribe나 bind를 하는 것이 아니고 Driver에 대해서는 Drive를 한다.
+driver는 에러가 나는 경우에 대해 바꿔서 처리를하고 항상 메인 쓰레드(UI쓰레드)에서 돌아간다.
+
+Subject도 에러가 발생해도 끊어지지않는 Subject가 필요할 수 있다.
+Subject도 끊어지지 않는 Subject를 만들었다.
+BehaviorSubject -> BehaviorRelay 에러가 나도 끊어지지않는다. RxRelay import 해야한다.
+이걸 쓸 경우 onNext가 아니라 accept로 바뀐다.
+
+
+
+         

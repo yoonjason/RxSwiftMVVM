@@ -26,7 +26,13 @@ class MenuViewController: UIViewController {
         tableView.dataSource = nil
 //        tableView.
         
+        /*
+         viewmodel에 있는 메뉴값이 나오면 아래와 같이 테이블뷰를 만들어주세요,.
+         
+         */
+        
         viewModel.menuObservable
+            .observeOn(MainScheduler.instance)
             .bind(to: tableView.rx.items(cellIdentifier: cellId, cellType: MenuItemTableViewCell.self)) { index, item, cell in
                 
                 
@@ -34,6 +40,11 @@ class MenuViewController: UIViewController {
                 cell.price.text = "\(item.price)"
                 cell.count.text = "\(item.count)"
                 
+                
+                //Cell +,- 처리
+                cell.onChange = { [weak self] increase in
+                    self?.viewModel.changeCount(item: item, increase: increase)
+                }
         }
             .disposed(by: disposeBag)
         //데이터 소스가 필요없다. item은 데이터. index는 indexPath.row cell은 인덱스에 맞는 셀
@@ -49,6 +60,13 @@ class MenuViewController: UIViewController {
 //            })
 //            .disposed(by: disposeBag)
         
+        /*
+        viewmodel에 menuCount는 문자로 바꿔서 text에 값을 줍니다.
+        totalPrice가 나오면 통화형태로 바꿔서 text에 값을 줍니다.
+        ViewController에는 view의 요소만 잡아서 어떤 형태로 화면에 뿌릴지 지정한다.
+
+        
+        */
         viewModel.itemsCount
             .map{"\($0)"}
             .bind(to: itemCountLabel.rx.text) //-> Subscribe(onNext : {})와 같은 역할을 한다.
@@ -98,6 +116,7 @@ class MenuViewController: UIViewController {
     
     @IBAction func onClear() {
         viewModel.clearAllItemSelections()
+        //viewModel로 넘겼다.
     }
     
     @IBAction func onOrder(_ sender: UIButton) {
@@ -108,13 +127,17 @@ class MenuViewController: UIViewController {
 //        viewModel.totalPrice.onNext(100) //100원씩 넣어준다.
 //        viewModel.menuObservable.onNext([Menu(name: "changed", price: 100, count: 2)]) //viewModel MenuObservable에 값을 넣어준다.
 //        viewModel.menuObservable.onNext([Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3))]) //viewModel MenuObservable에 값을 넣어준다.
-        viewModel.menuObservable.onNext([Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3))])
+        
+//        viewModel.menuObservable.onNext([Menu(id : 0, name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(id : 1, name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3)), Menu(id : 2, name: "changed", price: Int.random(in: 100...1000), count: Int.random(in: 0...3))])
         
         
         /*
          이렇게 바껴서 돌아가는 순간,데이터가 새로 들어가서 초기화했던 메뉴들이 없어지고, 하나로 바뀔 것이다.
          아이템 카운트가 바뀌
          */
+        
+        //나중에는 viewModel로 넘길것이다.
+        viewModel.onOrder()
     }
 
 }
