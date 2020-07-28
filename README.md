@@ -3,6 +3,8 @@ Rxswift 정리
 ## Stream
 ![](docs/stream.png)
 
+반응형 -> 나중에 생기는 데이터 Observable 이라는 class로 감싸서 전달한다.
+
 Youtube 주소
 https://youtu.be/iHKBNYMWd5I
 
