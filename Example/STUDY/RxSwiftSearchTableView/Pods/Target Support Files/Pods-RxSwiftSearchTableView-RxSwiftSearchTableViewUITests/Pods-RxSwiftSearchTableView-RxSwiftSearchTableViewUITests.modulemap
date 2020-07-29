@@ -1,0 +1,6 @@
+framework module Pods_RxSwiftSearchTableView_RxSwiftSearchTableViewUITests {
+  umbrella header "Pods-RxSwiftSearchTableView-RxSwiftSearchTableViewUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
