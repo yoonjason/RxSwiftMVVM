@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'RxSwiftMVVMLogin' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for RxSwiftMVVMLogin
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  target 'RxSwiftMVVMLoginTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'RxSwiftMVVMLoginUITests' do
+    # Pods for testing
+  end
+
+end

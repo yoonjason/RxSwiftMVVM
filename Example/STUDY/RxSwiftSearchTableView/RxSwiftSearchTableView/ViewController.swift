@@ -51,12 +51,7 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        let searchBarOb = searchBar.rx.text.orEmpty
-        .debounce(RxTimeInterval.microseconds(5), scheduler: MainScheduler.instance)
-        .distinctUntilChanged()
-            .subscribe(onNext:{$0})
-        print(searchBarOb)
-        
+               
 
         searchBar.rx.text.orEmpty
             .debounce(RxTimeInterval.microseconds(5), scheduler: MainScheduler.instance)
